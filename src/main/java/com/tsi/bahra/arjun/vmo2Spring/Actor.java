@@ -1,6 +1,9 @@
 package com.tsi.bahra.arjun.vmo2Spring;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name="actor")
@@ -16,6 +19,9 @@ public class Actor {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @ManyToMany(mappedBy = "actors")
+    private Set<Film> films = new HashSet<>();
 
     public int getActorID() {
         return actorID;

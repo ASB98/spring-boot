@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.Set;
+
 @SpringBootApplication
 @RestController
 @RequestMapping("/home")
@@ -22,7 +24,6 @@ public class Vmo2SpringApplication {
 		this.actorRepo = actorRepo;
 		this.filmRepo = filmRepo;
 	}
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(Vmo2SpringApplication.class, args);
@@ -43,4 +44,66 @@ public class Vmo2SpringApplication {
 		return actorRepo.findById(actorID).
 				orElseThrow(() -> new ResourceAccessException("Actor not found"));
 	}
+
+	@GetMapping("/actorsInFilm/{filmId}")
+	public Set<Actor> getActorsInFilm(@PathVariable int filmId) {
+		Film film = filmRepo.findById(filmId)
+				.orElseThrow(() -> new ResourceAccessException("Film not found"));
+		return film.getActors();
+	}
+
+	@PostMapping("/addActor")
+	public Actor addActor(@RequestBody Actor actor) {
+		return actorRepo.save(actor);
+	}
+
+	@PostMapping("/addFilm")
+	public Film addFilm(@RequestBody Film film) {
+		return filmRepo.save(film);
+	}
+
+	@PostMapping("/addActorToFilm/{filmId}/{actorId}")
+	public Film addActorToFilm(@PathVariable int filmId, @PathVariable int actorId) {
+		Film film = filmRepo.findById(filmId)
+				.orElseThrow(() -> new ResourceAccessException("Film not found"));
+		Actor actor = actorRepo.findById(actorId)
+				.orElseThrow(() -> new ResourceAccessException("Actor not found"));
+		film.getActors().add(actor);
+		return filmRepo.save(film);
+	}
+
+	@PutMapping("/updateActor/{id}")
+	public Actor updateActor(@PathVariable("id") int actorID, @RequestBody Actor actorDetails) {
+		Actor actor = actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException("Actor not found"));
+		actor.setFirstName(actorDetails.getFirstName());
+		actor.setLastName(actorDetails.getLastName());
+		return actorRepo.save(actor);
+	}
+
+	@PutMapping("/updateFilm/{id}")
+	public Film updateFilm(@PathVariable("id") int filmID, @RequestBody Film filmDetails) {
+		Film film = filmRepo.findById(filmID)
+				.orElseThrow(() -> new ResourceAccessException("Film not found"));
+		film.setTitle(filmDetails.getTitle());
+		film.setDescription(filmDetails.getDescription());
+		return filmRepo.save(film);
+	}
+
+	@DeleteMapping("/deleteActor/{id}")
+	public void deleteActor(@PathVariable("id") int actorID) {
+		Actor actor = actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException("Actor not found"));
+		actorRepo.delete(actor);
+	}
+
+	@DeleteMapping("/deleteFilm/{id}")
+	public void deleteFilm(@PathVariable("id") int filmID) {
+		Film film = filmRepo.findById(filmID)
+				.orElseThrow(() -> new ResourceAccessException("Film not found"));
+		filmRepo.delete(film);
+	}
+
+
+
 }
