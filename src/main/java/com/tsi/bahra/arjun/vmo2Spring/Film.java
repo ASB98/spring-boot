@@ -19,6 +19,15 @@ public class Film {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "release_year")
+    private int releaseYear;
+
+    @Column(name = "language_id")
+    private int languageID;
+
+    @Column(name = "rental_duration")
+    private int rentalDuration;
+
     @ManyToMany
     @JoinTable(
             name = "film_actor",
@@ -50,6 +59,16 @@ public class Film {
         this.filmID = filmID;
     }
 
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setLanguageID(int languageID) {
+        this.languageID = languageID;
+    }
+    public void setRentalDuration(int rentalDuration) {
+        this.rentalDuration = rentalDuration;
+    }
     public void setTitle(String title) {
         this.title = title;
     }
