@@ -19,9 +19,6 @@ public class Actor {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(mappedBy = "actors")
-    private Set<Film> films = new HashSet<>();
-
     public int getActorID() {
         return actorID;
     }
@@ -34,9 +31,9 @@ public class Actor {
         return lastName;
     }
 
-    public Set<Film> getFilms() {
-        return films;
-    }
+//    public Set<Film> getFilms() {
+//        return films;
+//    }
 
     public void setActorID(int actorID) {
         this.actorID = actorID;
