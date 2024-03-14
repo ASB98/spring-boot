@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Table(name="actor")
 public class Actor {
@@ -33,6 +32,10 @@ public class Actor {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Set<Film> getFilms() {
+        return films;
     }
 
     public void setActorID(int actorID) {

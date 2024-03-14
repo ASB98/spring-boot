@@ -3,7 +3,6 @@ package com.tsi.bahra.arjun.vmo2Spring;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
 
 @Entity
 @Table(name="film")
