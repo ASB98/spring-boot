@@ -3,6 +3,7 @@ package com.tsi.bahra.arjun.vmo2Spring;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="film")
@@ -50,6 +51,7 @@ public class Film {
     public Set<Actor> getActors() {
         return actors;
     }
+
 
     public void setActors(Set<Actor> actors) {
         this.actors = actors;

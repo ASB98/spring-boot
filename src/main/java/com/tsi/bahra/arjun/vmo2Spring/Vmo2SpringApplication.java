@@ -6,7 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
+
 
 @SpringBootApplication
 @RestController
@@ -58,9 +62,29 @@ public class Vmo2SpringApplication {
 	}
 
 	@PostMapping("/addFilm")
-	public Film addFilm(@RequestBody Film film) {
+	public Film addFilm(@RequestBody Map<String, Object> filmData) {
+		Film film = new Film();
+		film.setTitle((String) filmData.get("title"));
+		film.setDescription((String) filmData.get("description"));
+		film.setReleaseYear((Integer) filmData.get("releaseYear"));
+		film.setLanguageID((Integer) filmData.get("languageID"));
+		film.setRentalDuration((Integer) filmData.get("rentalDuration"));
+
+		Set<Actor> actors = new HashSet<>();
+		// Adjusting to fetch actor IDs from "actors" key
+		List<Integer> actorIds = (List<Integer>) filmData.get("actors");
+		if (actorIds != null) {
+			for (Integer actorId : actorIds) {
+				Actor actor = actorRepo.findById(actorId)
+						.orElseThrow(() -> new ResourceAccessException("Actor not found with ID: " + actorId));
+				actors.add(actor);
+			}
+		}
+		film.setActors(actors);
+
 		return filmRepo.save(film);
 	}
+
 
 	@PostMapping("/addActorToFilm/{filmId}/{actorId}")
 	public Film addActorToFilm(@PathVariable int filmId, @PathVariable int actorId) {
