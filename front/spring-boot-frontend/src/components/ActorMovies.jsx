@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 function ActorMovies() {
-  const { actorID } = useParams(); // Using useParams hook to get actorID from the URL
+  const { actorID } = useParams(); //using useParams hook to get actorID from the URL
   const [actorMovies, setActorMovies] = useState([]);
   const [actorName, setActorName] = useState('');
 
