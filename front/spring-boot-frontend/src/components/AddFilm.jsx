@@ -110,7 +110,7 @@ function AddFilm() {
             {selectedActorIDs.length > 0 && (
                 <div>
                     Selected Actors:
-                    <ul>
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
                         {selectedActorIDs.map((id) => {
                             const actor = actors.find(actor => actor.actorID === id);
                             return <li key={id}>{actor?.firstName} {actor?.lastName}</li>;
