@@ -8,7 +8,6 @@ import org.springframework.web.client.ResourceAccessException;
 
 import java.util.*;
 
-
 @SpringBootApplication
 @RestController
 @RequestMapping("/home")
@@ -20,6 +19,10 @@ public class Vmo2SpringApplication {
 
 	@Autowired
 	private FilmRepository filmRepo;
+
+	@Autowired
+	private LanguageRepository languageRepo;
+
 
 	public Vmo2SpringApplication(ActorRepository actorRepo, FilmRepository filmRepo) {
 		this.actorRepo = actorRepo;
@@ -40,6 +43,12 @@ public class Vmo2SpringApplication {
 		return filmRepo.findAll();
 	}
 
+	@GetMapping("film/{id}")
+	public Film getFilmByID(@PathVariable("id") int filmID){
+		return filmRepo.findById(filmID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+	}
+
 	@GetMapping("actor/{id}")
 	public Actor getActorByID(@PathVariable("id") int actorID){
 		return actorRepo.findById(actorID).
@@ -51,6 +60,18 @@ public class Vmo2SpringApplication {
 		Film film = filmRepo.findById(filmId)
 				.orElseThrow(() -> new ResourceAccessException("Film not found"));
 		return film.getActors();
+	}
+
+	@GetMapping("/filmsByActor/{actorId}")
+	public Set<Film> getFilmsByActorId(@PathVariable("actorId") int actorId) {
+		Actor actor = actorRepo.findById(actorId)
+				.orElseThrow(() -> new ResourceAccessException("Actor not found with ID: " + actorId));
+		return actor.getFilms();
+	}
+
+	@GetMapping("/allLanguages")
+	public Iterable<Language> getAllLanguages() {
+		return languageRepo.findAll();
 	}
 
 	@PostMapping("/addActor")
@@ -68,7 +89,7 @@ public class Vmo2SpringApplication {
 		film.setRentalDuration((Integer) filmData.get("rentalDuration"));
 
 		Set<Actor> actors = new HashSet<>();
-		// Adjusting to fetch actor IDs from "actors" key
+		//adjusting to fetch actor IDs from "actors" key
 		List<Integer> actorIds = (List<Integer>) filmData.get("actors");
 		if (actorIds != null) {
 			for (Integer actorId : actorIds) {
@@ -108,6 +129,8 @@ public class Vmo2SpringApplication {
 				.orElseThrow(() -> new ResourceAccessException("Film not found"));
 		film.setTitle(filmDetails.getTitle());
 		film.setDescription(filmDetails.getDescription());
+		film.setLanguageID(filmDetails.getLanguageID());
+		film.setReleaseYear(filmDetails.getReleaseYear());
 		return filmRepo.save(film);
 	}
 
