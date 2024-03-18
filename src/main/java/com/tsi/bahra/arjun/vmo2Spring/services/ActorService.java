@@ -50,13 +50,13 @@ public class ActorService {
         Actor actor = actorRepo.findById(actorID)
                 .orElseThrow(() -> new ResourceAccessException("Actor not found"));
 
-        // Iterate over each film associated with the actor and remove the actor
+        //iterate over each film associated with the actor and remove the actor
         actor.getFilms().forEach(film -> {
             film.getActors().remove(actor);
-            filmRepo.save(film); // Save the film with the actor removed
+            filmRepo.save(film); //save the film with the actor removed
         });
 
-        // Now that the actor is no longer associated with any films, delete the actor
+        //delete actor after film associations have been removed
         actorRepo.delete(actor);
     }
 }

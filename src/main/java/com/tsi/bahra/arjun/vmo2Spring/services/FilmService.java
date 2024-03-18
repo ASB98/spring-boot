@@ -73,7 +73,7 @@ public class FilmService {
         Film film = filmRepo.findById(filmID)
                 .orElseThrow(() -> new ResourceAccessException("Film not found"));
 
-        //safely extract values from filmData, checking for null
+        //extract values from filmData, checking for null
         String title = (String) filmData.getOrDefault("title", film.getTitle());
         String description = (String) filmData.getOrDefault("description", film.getDescription());
         Integer releaseYear = (Integer) filmData.getOrDefault("releaseYear", film.getReleaseYear());
