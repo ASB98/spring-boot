@@ -51,6 +51,13 @@ public class Film {
         return actors;
     }
 
+    public int getLanguageID(){
+        return languageID;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
 
     public void setActors(Set<Actor> actors) {
         this.actors = actors;
