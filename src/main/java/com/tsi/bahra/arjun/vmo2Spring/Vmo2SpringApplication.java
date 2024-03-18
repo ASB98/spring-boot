@@ -3,6 +3,7 @@ package com.tsi.bahra.arjun.vmo2Spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -31,6 +32,24 @@ public class Vmo2SpringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Vmo2SpringApplication.class, args);
+	}
+
+	//method to remove an actor from all films
+	private void removeActorFromAllFilms(int actorId) {
+		Actor actor = actorRepo.findById(actorId)
+				.orElseThrow(() -> new ResourceAccessException("Actor not found"));
+		actor.getFilms().forEach(film -> {
+			film.getActors().remove(actor);
+			filmRepo.save(film);
+		});
+	}
+
+	//method to remove all actors from a film
+	private void removeAllActorsFromFilm(int filmId) {
+		Film film = filmRepo.findById(filmId)
+				.orElseThrow(() -> new ResourceAccessException("Film not found"));
+		film.getActors().clear();
+		filmRepo.save(film);
 	}
 
 	@GetMapping("/allActors")
@@ -131,23 +150,24 @@ public class Vmo2SpringApplication {
 		film.setDescription(filmDetails.getDescription());
 		film.setLanguageID(filmDetails.getLanguageID());
 		film.setReleaseYear(filmDetails.getReleaseYear());
+		film.setActors(filmDetails.getActors());
 		return filmRepo.save(film);
 	}
 
+	// Update to deleteActor endpoint
 	@DeleteMapping("/deleteActor/{id}")
-	public void deleteActor(@PathVariable("id") int actorID) {
-		Actor actor = actorRepo.findById(actorID)
-				.orElseThrow(() -> new ResourceAccessException("Actor not found"));
-		actorRepo.delete(actor);
+	public ResponseEntity<?> deleteActor(@PathVariable("id") int actorID) {
+		removeActorFromAllFilms(actorID);
+		actorRepo.deleteById(actorID);
+		return ResponseEntity.ok().body("Actor deleted successfully!");
 	}
 
+	// Update to deleteFilm endpoint
 	@DeleteMapping("/deleteFilm/{id}")
-	public void deleteFilm(@PathVariable("id") int filmID) {
-		Film film = filmRepo.findById(filmID)
-				.orElseThrow(() -> new ResourceAccessException("Film not found"));
-		filmRepo.delete(film);
+	public ResponseEntity<?> deleteFilm(@PathVariable("id") int filmID) {
+		removeAllActorsFromFilm(filmID);
+		filmRepo.deleteById(filmID);
+		return ResponseEntity.ok().body("Film deleted successfully!");
 	}
-
-
 
 }
