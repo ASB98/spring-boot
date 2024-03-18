@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function FilmList() {
   const [films, setFilms] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // State to track search query
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const navigate = useNavigate();
-  let totalPages = Math.ceil(films.length / itemsPerPage);
 
   useEffect(() => {
     const fetchFilms = async () => {
@@ -31,7 +30,15 @@ function FilmList() {
     }
   };
 
-  const filmsToShow = films.slice(
+  //apply search filter to films
+  const filteredFilms = searchQuery
+    ? films.filter(film =>
+        film.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : films;
+
+  let totalPages = Math.ceil(filteredFilms.length / itemsPerPage);
+  const filmsToShow = filteredFilms.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -43,16 +50,30 @@ function FilmList() {
     <div>
       <h2>Film List</h2>
       <div>
+        <input
+          type="text"
+          placeholder="Search films by name..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1); //reset to first page on new search
+          }}
+        /></div>
+      <div>
+        <p></p>
         <Link to="/addFilm">Add New Film</Link>
       </div>
       {filmsToShow.map((film) => (
         <div key={film.filmID}>
-          <h3>{film.title}</h3>
+          <Link to={`/film/${film.filmID}`} style={{ textDecoration: 'none', color: 'white' }}>
+            <h3>{film.title}</h3>
+          </Link>
           <p>{film.description}</p>
           <button onClick={() => deleteFilm(film.filmID)}>Delete</button>
           <button onClick={() => navigate(`/updateFilm/${film.filmID}`)}>Update</button>
         </div>
       ))}
+      <p></p>
       <div>
         <button onClick={handlePrevClick} disabled={currentPage === 1}>Previous</button>
         <span> Page {currentPage} of {totalPages} </span>
