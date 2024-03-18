@@ -1,4 +1,4 @@
-package com.tsi.bahra.arjun.vmo2Spring;
+package com.tsi.bahra.arjun.vmo2Spring.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

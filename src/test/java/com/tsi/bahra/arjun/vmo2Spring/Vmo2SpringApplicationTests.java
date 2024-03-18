@@ -1,5 +1,9 @@
 package com.tsi.bahra.arjun.vmo2Spring;
 
+import com.tsi.bahra.arjun.vmo2Spring.objects.Actor;
+import com.tsi.bahra.arjun.vmo2Spring.objects.Film;
+import com.tsi.bahra.arjun.vmo2Spring.repos.ActorRepository;
+import com.tsi.bahra.arjun.vmo2Spring.repos.FilmRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +41,7 @@ public class Vmo2SpringApplicationTests {
 
 		given(actorRepository.findAll()).willReturn(Collections.singletonList(actor));
 
+		//use mock mvc for sending http request without starting the server.
 		mockMvc.perform(get("/home/allActors")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())

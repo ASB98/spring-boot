@@ -1,5 +1,7 @@
 package com.tsi.bahra.arjun.vmo2Spring;
 
+import com.tsi.bahra.arjun.vmo2Spring.objects.Actor;
+import com.tsi.bahra.arjun.vmo2Spring.repos.ActorRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

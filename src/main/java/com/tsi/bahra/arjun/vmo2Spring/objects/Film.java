@@ -1,4 +1,4 @@
-package com.tsi.bahra.arjun.vmo2Spring;
+package com.tsi.bahra.arjun.vmo2Spring.objects;
 
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -57,6 +57,10 @@ public class Film {
 
     public int getReleaseYear() {
         return releaseYear;
+    }
+
+    public int getRentalDuration(){
+        return rentalDuration;
     }
 
     public void setActors(Set<Actor> actors) {
