@@ -26,7 +26,7 @@ function UpdateActor() {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:8080/home/updateActor/${id}`, { firstName, lastName });
-      navigate('/home/actors'); // Redirect after updating
+      navigate('/home/actors'); //redirect after updating
     } catch (error) {
       console.error('Failed to update actor:', error);
     }

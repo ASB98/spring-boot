@@ -7,7 +7,7 @@ function AddFilm() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [releaseYear, setReleaseYear] = useState('');
-    const [rentalDuration, setRentalDuration] = useState(''); // State for rental duration
+    const [rentalDuration, setRentalDuration] = useState('');
     const [selectedLanguageId, setSelectedLanguageId] = useState('');
     const [languages, setLanguages] = useState([]);
     const [actors, setActors] = useState([]);
@@ -17,6 +17,7 @@ function AddFilm() {
 
     useEffect(() => {
         const fetchLanguagesAndActors = async () => {
+            //promise.all to handle promises simultaneously, resolves when all input promises have resolved.
             const responses = await Promise.all([
                 axios.get('http://localhost:8080/home/allLanguages'),
                 axios.get('http://localhost:8080/home/allActors')
@@ -41,7 +42,7 @@ function AddFilm() {
             title,
             description,
             releaseYear: parseInt(releaseYear, 10),
-            rentalDuration: parseInt(rentalDuration, 10), // Include rental duration in the payload
+            rentalDuration: parseInt(rentalDuration, 10),
             languageID: parseInt(selectedLanguageId, 10),
             actors: selectedActorIDs
         };

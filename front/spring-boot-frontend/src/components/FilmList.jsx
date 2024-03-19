@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function FilmList() {
   const [films, setFilms] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // State to track search query
+  const [searchQuery, setSearchQuery] = useState(''); //state to track search query
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const navigate = useNavigate();

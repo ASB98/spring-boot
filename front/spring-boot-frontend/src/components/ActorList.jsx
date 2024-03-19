@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function ActorList() {
   const [actors, setActors] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // State to track search query
+  const [searchQuery, setSearchQuery] = useState(''); //state to track search query
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function ActorList() {
     fetchActors();
   }, []);
 
-  // Apply search filter to actors
+  //apply search filter to actors
   const filteredActors = searchQuery
     ? actors.filter(actor =>
         `${actor.firstName} ${actor.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
@@ -57,7 +57,7 @@ function ActorList() {
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
-            setCurrentPage(1); // Reset to first page on new search
+            setCurrentPage(1); //reset to first page on new search
           }}
         />
       </div>

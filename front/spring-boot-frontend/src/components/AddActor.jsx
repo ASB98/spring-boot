@@ -22,10 +22,9 @@ function AddActor() {
         firstName,
         lastName
       });
-      navigate('/home/actors'); // Redirect to actors page upon successful submission
+      navigate('/home/actors'); //redirect to actors page upon successful submission
     } catch (error) {
       console.error('Failed to add actor:', error);
-      // Handle error if needed
     }
   };
 
