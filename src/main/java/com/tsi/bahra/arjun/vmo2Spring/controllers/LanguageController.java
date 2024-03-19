@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/home")
 public class LanguageController {
-
     @Autowired
     private LanguageService languageService;
 

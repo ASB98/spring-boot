@@ -14,10 +14,13 @@ public class Vmo2SpringApplication {
 		SpringApplication.run(Vmo2SpringApplication.class, args);
 	}
 
+	//method produces a bean to be managed by the Spring container.
+	//handles CORS requests across the entire application
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
+		//allow cookies and authentication headers to be included in cross origin requests.
 		config.setAllowCredentials(true);
 		config.addAllowedOriginPattern("*"); //allows all origins
 		config.addAllowedHeader("*");

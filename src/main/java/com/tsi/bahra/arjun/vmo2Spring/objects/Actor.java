@@ -20,7 +20,7 @@ public class Actor {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(mappedBy = "actors")
+    @ManyToMany(mappedBy = "actors") //bidirectional association for many to many - non-ownership side
     @JsonIgnore
     private Set<Film> films = new HashSet<>();
 
@@ -31,7 +31,6 @@ public class Actor {
     public void setFilms(Set<Film> films) {
         this.films = films;
     }
-
 
     public int getActorID() {
         return actorID;
